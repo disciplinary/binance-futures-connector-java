@@ -22,6 +22,7 @@ public class WebSocketConnection extends WebSocketListener {
     private final int connectionId;
     private final Request request;
     private final String streamName;
+    private final String account;
 
     private WebSocket webSocket;
 
@@ -32,12 +33,13 @@ public class WebSocketConnection extends WebSocketListener {
             WebSocketCallback onMessageCallback,
             WebSocketCallback onClosingCallback,
             WebSocketCallback onFailureCallback,
-            Request request
-    ) {
+            Request request,
+            String account) {
         this.onOpenCallback = onOpenCallback;
         this.onMessageCallback = onMessageCallback;
         this.onClosingCallback = onClosingCallback;
         this.onFailureCallback = onFailureCallback;
+        this.account = account;
         this.connectionId = WebSocketConnection.connectionCounter.incrementAndGet();
         this.request = request;
         this.streamName = request.url().host() + request.url().encodedPath();
@@ -82,12 +84,18 @@ public class WebSocketConnection extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket ws, String text) {
+        if(null!=account){
+            text=text+"@!@"+account;
+        }
         onMessageCallback.onReceive(text);
     }
 
     @Override
     public void onFailure(WebSocket ws, Throwable t, Response response) {
         logger.error("[Connection {}] Failure", connectionId, t);
-        onFailureCallback.onReceive(String.valueOf(connectionId));
+        this.close();
+        webSocket=null;
+        this.connect();
+      //  onFailureCallback.onReceive(String.valueOf(connectionId));
     }
 }

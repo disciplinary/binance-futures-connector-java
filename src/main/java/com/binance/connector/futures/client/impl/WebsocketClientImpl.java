@@ -621,6 +621,10 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
     public int listenUserStream(String listenKey, WebSocketCallback onMessageCallback) {
         return listenUserStream(listenKey, noopCallback, onMessageCallback, noopCallback, noopCallback);
     }
+    @Override
+    public int listenUserStream(String listenKey, String account, WebSocketCallback onMessageCallback) {
+        return listenUserStream(listenKey,account, noopCallback, onMessageCallback, noopCallback, noopCallback);
+    }
 
     /**
      * Same as {@link #listenUserStream(String, WebSocketCallback)} plus accepts callbacks for all major websocket connection events.
@@ -637,7 +641,11 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
         Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s", baseUrl, listenKey));
         return createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
     }
-
+    @Override
+    public int listenUserStream(String listenKey, String account, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
+        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s", baseUrl, listenKey));
+        return createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
+    }
     /**
      * Combined streams are accessed at /stream?streams=&lt;streamName1&gt;/&lt;streamName2&gt;/&lt;streamName3&gt;
      *
@@ -653,7 +661,6 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
     public int combineStreams(ArrayList<String> streams, WebSocketCallback onMessageCallback) {
         return combineStreams(streams, noopCallback, onMessageCallback, noopCallback, noopCallback);
     }
-
     /**
      * Same as {@link #combineStreams(ArrayList, WebSocketCallback)} plus accepts callbacks for all major websocket connection events.
      *
@@ -715,10 +722,19 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
             WebSocketCallback onFailureCallback,
             Request request
     ) {
-        WebSocketConnection connection = new WebSocketConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
+        return this.createConnection(onOpenCallback,onMessageCallback,onClosingCallback,onFailureCallback,request,null);
+    }
+  public int  createConnection(
+            WebSocketCallback onOpenCallback,
+            WebSocketCallback onMessageCallback,
+            WebSocketCallback onClosingCallback,
+            WebSocketCallback onFailureCallback,
+            Request request,
+            String account) {
+        WebSocketConnection connection = new WebSocketConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request, account);
         connection.connect();
         int connectionId = connection.getConnectionId();
         connections.put(connectionId, connection);
         return connectionId;
-    }
+}
 }
