@@ -28,8 +28,8 @@ public interface WebsocketClient {
     int combineStreams(ArrayList<String> streams, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback);
     int listenUserStream(String listenKey, WebSocketCallback onMessageCallback);
     int listenUserStream(String listenKey, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback);
-    int listenUserStream(String listenKey,String account, WebSocketCallback onMessageCallback);
-    int listenUserStream(String listenKey,String account, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback);
+    int listenUserStream(String listenKey, String account, WebSocketCallback onMessageCallback);
+    int listenUserStream(String listenKey, String account, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback);
     void closeConnection(int streamId);
     void closeAllConnections();
     int markPriceStream(String symbol, int speed, WebSocketCallback onMessageCallback);

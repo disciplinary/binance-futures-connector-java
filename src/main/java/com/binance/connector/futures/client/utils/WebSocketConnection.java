@@ -84,8 +84,8 @@ public class WebSocketConnection extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket ws, String text) {
-        if(null!=account){
-            text=text+"@!@"+account;
+        if (null != account) {
+            text = text + "@!@" + account;
         }
         onMessageCallback.onReceive(text);
     }
@@ -94,7 +94,7 @@ public class WebSocketConnection extends WebSocketListener {
     public void onFailure(WebSocket ws, Throwable t, Response response) {
         logger.error("[Connection {}] Failure", connectionId, t);
         this.close();
-        webSocket=null;
+        webSocket = null;
         this.connect();
       //  onFailureCallback.onReceive(String.valueOf(connectionId));
     }

@@ -623,7 +623,7 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
     }
     @Override
     public int listenUserStream(String listenKey, String account, WebSocketCallback onMessageCallback) {
-        return listenUserStream(listenKey,account, noopCallback, onMessageCallback, noopCallback, noopCallback);
+        return listenUserStream(listenKey, account, noopCallback, onMessageCallback, noopCallback, noopCallback);
     }
 
     /**
@@ -722,7 +722,7 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
             WebSocketCallback onFailureCallback,
             Request request
     ) {
-        return this.createConnection(onOpenCallback,onMessageCallback,onClosingCallback,onFailureCallback,request,null);
+        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request, null);
     }
   public int  createConnection(
             WebSocketCallback onOpenCallback,
