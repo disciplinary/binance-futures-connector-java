@@ -85,7 +85,7 @@ public class WebSocketConnection extends WebSocketListener {
     @Override
     public void onMessage(WebSocket ws, String text) {
         if (null != account) {
-            text = text + "@!@" + account;
+            text = account + "@!@" + text;
         }
         onMessageCallback.onReceive(text);
     }

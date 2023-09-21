@@ -644,7 +644,7 @@ public abstract class WebsocketClientImpl implements WebsocketClient {
     @Override
     public int listenUserStream(String listenKey, String account, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
         Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s", baseUrl, listenKey));
-        return createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request,account);
+        return createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request, account);
     }
     /**
      * Combined streams are accessed at /stream?streams=&lt;streamName1&gt;/&lt;streamName2&gt;/&lt;streamName3&gt;
